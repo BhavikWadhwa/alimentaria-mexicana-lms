@@ -4,13 +4,13 @@ Prepared 17 September 2026. Target pilot date: 26 October 2026.
 
 This describes the implementation in this repository, not a proposed future product. Design rationale below explains the choices supported by the code and the original V1 brief. It does not imply that every alternative was benchmarked. The system is a functional, single-restaurant pilot with launch work outstanding, not an independently security-certified or production-hardened enterprise LMS.
 
-## 1. What to say at the meeting
+## 1. Meeting
 
 “We have a React and TypeScript LMS built on Next.js, using Supabase for authentication, PostgreSQL, and private file storage. Administrators create employees and training; employees complete assigned, role-authorized content and optional quizzes; management sees persistent completion history. Permissions are checked both in the application and the database. The core workflow has passed desktop and mobile-viewport integration tests. We still need production deployment, verified recovery email, backup restoration, approved content, and a review of the gaps documented here.”
 
 The important boundary is `/pilot`: this is the persistent application. The inherited `/employee`, `/manager`, and marketing/demo routes contain fictional records and browser-local demo state. Operational screens, certificates, analytics and similar demo features are not implemented production LMS capabilities.
 
-## 2. Exact stack and its purpose
+## 2. Exact stack and what its purpose is!!!
 
 Versions below come from `package-lock.json`, not a claim that these are the latest available versions. `npm ci` installs the locked dependency graph.
 
@@ -144,7 +144,7 @@ Private images use ordinary image elements pointed at the authenticated file rou
 
 A real browser test found that an action button could be clicked before hydration attached its handler. The shared ActionButton now stays disabled until browser readiness. Other forms still merit deliberate slow-network/hydration usability testing; that fix is not proof that every interactive component has been audited for the same issue.
 
-## 9. What is strong, and what is not “perfect”
+## 9. What is strong, and what is not “perfect” (yett)
 
 There is no perfect schema. The strongest decisions for this bounded pilot are:
 
@@ -159,7 +159,7 @@ There is no perfect schema. The strongest decisions for this bounded pilot are:
 
 These strengths do not eliminate operational, schema or usability gaps.
 
-## 10. Known weaknesses and priorities
+## 10. Known weaknessesfrom my point fo view and priorities
 
 | Priority                   | Finding                                                                | Consequence / next step                                                                                                                                                                                                                                                                                |
 | -------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -194,16 +194,6 @@ Supabase organization: Alimentaria Mexicana; project: `alimentaria-lms-pilot`; p
 
 Repository source includes `.env.example`, not real credentials, passwords, employee records or database exports. The local `.env.local` stays ignored. Real data and Auth identities live in Supabase. Private file bytes live in Storage. Source-control access, Supabase access and application roles are separate permissions.
 
-## 12. Questions to settle with the IT head
-
-1. Who owns GitHub, Supabase, hosting, domain, incident response and credential recovery after handoff?
-2. Is retained completion status sufficient, or must the business reproduce historical content and answers?
-3. Should managers see all employees and historical titles, or only their station/reporting group?
-4. Are multiple job roles, repeat training and more restaurants near-term requirements?
-5. What backup recovery point and recovery time are acceptable, and who will run restore drills within the approved budget?
-6. What are the employee-data retention/deletion requirements, and is administrator MFA required?
-7. Which inbox/sender will handle recovery, and what domain will host the pilot?
-8. Who approves procedures and quizzes, and who conducts physical-device and accessibility acceptance?
 
 ## 13. Code map for a technical review
 
@@ -219,4 +209,4 @@ Repository source includes `.env.example`, not real credentials, passwords, empl
 | Automated evidence                          | `tests/pilot/`, `docs/testing.md`                                |
 | Setup, deployment and operating limits      | `docs/pilot-setup.md`, `docs/architecture.md`                    |
 
-For the meeting, demonstrate `/pilot/admin`, an employee's assigned module and the resulting history. Keep the fictional operations/demo screens clearly labeled when discussing future possibilities.
+
