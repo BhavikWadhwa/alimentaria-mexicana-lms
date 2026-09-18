@@ -1,0 +1,64 @@
+export type ModuleStatus = "completed" | "in-progress" | "not-started" | "locked";
+export type TrainingModule = { id: string; title: string; microLabel: string; category: string; lessons: number; completedLessons: number; duration: number; progress: number; status: ModuleStatus; image: string };
+export type Lesson = { id: string; moduleId: string; title: string; lessonNumber: number; duration: number; summary: string; outcomes: string[]; equipment: string[]; steps: string[]; mistakes: string[] };
+export type Recipe = { id: string; name: string; spanishName: string; station: string; time: string; difficulty: "Easy" | "Medium"; allergens: string[]; status: string; image: string; ingredients: string[]; equipment: string[]; method: string[]; portion: string; quality: string; storage: string; notes: string };
+export type QuizQuestion = { id: string; type: "multiple" | "boolean" | "image" | "sequence"; prompt: string; options: string[]; answer: string; explanation: string };
+export type ChecklistTemplate = { id: string; title: string; microLabel: string; items: string[] };
+export type Certificate = { id: string; title: string; earned: boolean; date?: string };
+export type Employee = { id: string; name: string; initials: string; role: string; station: string; startDate: string; pathway: string; progress: number; quizAverage: number; lastActive: string; status: "On track" | "Needs attention" | "Ready for sign-off" };
+export type ManagerActivity = { id: string; person: string; action: string; time: string };
+
+export type DataProvenance = "public-menu" | "industry-source" | "illustrative-demo";
+export type MenuClassification = "star" | "plowhorse" | "puzzle" | "dog";
+export type PublicMenuItem = {
+  id: string;
+  name: string;
+  category: "To Share" | "Chilaquiles" | "Mains" | "Tacos" | "Dessert";
+  sellingPrice: number;
+  priceDisplay: string;
+  description: string;
+  provenance: "public-menu";
+};
+export type MenuItemAnalytics = PublicMenuItem & {
+  unitsSold: number;
+  foodCostPerPlate: number;
+  allocatedWasteCost: number;
+  revenue: number;
+  contributionMargin: number;
+  foodCostPercent: number;
+  theoreticalFoodCost: number;
+  wasteAdjustedFoodCost: number;
+  adjustedContributionMargin: number;
+  popularityScore: number;
+  classification: MenuClassification;
+  ingredientCosts: { ingredient: string; cost: number }[];
+};
+export type WasteReason = "Over-prep" | "Spoilage" | "Incorrect preparation" | "Quality issue" | "Returned order" | "Dropped/damaged" | "Trim" | "Expired" | "Other";
+export type WasteLog = {
+  id: string;
+  date: string;
+  time: string;
+  ingredient: string;
+  menuItemId?: string;
+  quantity: number;
+  unit: string;
+  unitCost: number;
+  station: string;
+  employee: string;
+  reason: WasteReason;
+  note: string;
+  provenance: "illustrative-demo";
+};
+
+export type OperationalPriority = "Critical" | "High" | "Important" | "Normal";
+export type PrepStatus = "Not Started" | "In Progress" | "Complete" | "Skipped";
+export type EquipmentStatus = "Operational" | "Attention Required" | "Out of Service" | "Under Repair";
+export type HandoffCategory = "Prep" | "Inventory / Stock" | "Equipment" | "Supplier / Delivery" | "Reservation / Event" | "Staffing" | "General";
+export type EquipmentIssueType = "Not working" | "Temperature issue" | "Leak" | "Electrical" | "Unusual sound" | "Physical damage" | "Other";
+export type EquipmentTrainingLink = { id: string; equipmentId: string; trainingModuleId: string; relationshipType: "operation" | "cleaning" | "safety" | "troubleshooting" };
+export type Equipment = { id: string; restaurantId: string; locationId: string; assetCode: string; name: string; category: string; brand: string; model: string; serialNumber: string; station: string; installedDate: string; status: EquipmentStatus; lastServicedDate: string; nextServiceDate: string; serviceCompany: string; technician: string; warrantyExpiration: string; notes: string; qrIdentifier: string };
+export type EquipmentIssue = { id: string; equipmentId: string; type: EquipmentIssueType; priority: OperationalPriority; description: string; reportedByEmployeeId: string; reportedAt: string; resolved: boolean; resolutionNote?: string; linkedHandoffId?: string };
+export type MaintenanceRecord = { id: string; equipmentId: string; date: string; type: string; technician: string; company: string; cost: number; notes: string };
+export type PrepTask = { id: string; restaurantId: string; locationId: string; date: string; itemName: string; category: string; targetPar: number; currentQuantity: number; requiredQuantity: number; unit: string; assignedEmployeeId: string; priority: OperationalPriority; status: PrepStatus; notes: string; createdByEmployeeId: string; createdAt: string; completedAt?: string; linkedSopId?: string; linkedTrainingModuleId?: string; sourceHandoffId?: string };
+export type HandoffNote = { id: string; restaurantId: string; locationId: string; title: string; description: string; category: HandoffCategory; priority: OperationalPriority; shift: "Opening" | "Day" | "Closing"; createdByEmployeeId: string; createdAt: string; assignedEmployeeId?: string; resolved: boolean; acknowledged: boolean; linkedEquipmentId?: string; linkedPrepTaskId?: string; resolutionNote?: string; resolvedByEmployeeId?: string; resolvedAt?: string };
+export type OperationsState = { prepTasks: PrepTask[]; handoffNotes: HandoffNote[]; equipmentIssues: EquipmentIssue[]; maintenanceRecords: MaintenanceRecord[] };
